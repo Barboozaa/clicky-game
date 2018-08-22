@@ -1,46 +1,29 @@
 import React, { Component } from 'react';
-import './App.css';
-
-//-------------------------------------------------------------------------
-// To Do Example from class. Used to show us how to push to github
-//-------------------------------------------------------------------------
-
+import Pics from './components/Pics';
+import Wrapper from './components/Wrapper';
+import Header from './components/Header';
+import pics from './pics.json';
 
 class App extends Component {
 
   state = {
-    todos: ["Brush Teeth", "Make Coffee", "Make Breakfast"],
-    toDoItem: ""
-  };
-
-  handleInputChange = event => {
-    const {name, value} = event.target;
-    this.setState({
-      [name]: value
-    })
-  };
-
-  handleSubmit = event => {
-    event.preventDefault();
-    const {toDoItem, todos} = this.state;
-    if (!toDoItem) return; // Keep empty strings from being added to list
-    this.setState({
-      todos: [toDoItem, ...todos],
-      toDoItem: ""
-    })
+    currentScore: 0,
+    highScore: 0,
+    pics
   };
 
   render() {
     return (
-      <div>
-        <input onChange={this.handleInputChange} name="toDoItem" value={this.state.toDoItem} type="text"/>
-        <input type="button" value="New ToDo" onClick={this.handleSubmit}/>
-        <ul>
-          {this.state.todos.map(todo => (
-            <li>{todo}</li>
-          ))}
-        </ul>
-      </div>
+      <Wrapper>
+          <Header />
+
+          {this.state.pics.map(pic => (
+            <Pics 
+              name={pic.name} 
+              image={pic.image}
+            />
+          ))}          
+      </Wrapper>
     );
   };
 }
