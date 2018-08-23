@@ -5,9 +5,10 @@ const Header = props => (
     <div className="navbar-fixed">
         <nav>
             <div className="nav-wrapper">
-                <a className="brand-logo">Logo</a>
-                <ul className="right hide-on-med-and-down">
+                <a className="brand-logo">Clicky Game</a>
+                <ul className="right">
                 <li>Score : {props.currentScore}</li>
+                <li>|</li>
                 <li>High Score : {props.highScore}</li>
                 </ul>
             </div>

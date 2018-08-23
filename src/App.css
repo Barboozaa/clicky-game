@@ -1,0 +1,10 @@
+.cont {
+    width: 980px;
+    margin: 15px auto
+}
+
+.clearfix::after {
+    content: "";
+    clear: both;
+    display: table;
+}
