@@ -11,28 +11,50 @@ class App extends Component {
     score: 0,
     highScore: 0,
     pics,
-    clickedPics: [],
+    clickedPics: pics,
     message: ""
   };
 
-  handleClick = id => {
-    let {clickedPics, score} = this.state;
-
-    if(clickedPics.includes(id)){
-      this.setState({
-        clickedPics: [],
-        score: 0,
-        message:  "You lost"
-      });
-      return;
-    } else {
-      this.setState({
-        clickedPics: clickedPics.concat(id),
-        score: score + 1
-      })
-      console.log(clickedPics)
+  shuffle = arr => {
+    for (let i = arr.length - 1; i > 0; i--) {
+      let j = Math.floor(Math.random() * (i + 1));
+      [arr[i], arr[j]] = [arr[j], arr[i]];
     }
-  }
+  };
+
+  handleClick = event => {
+    const id = event.target.id;
+    console.log("id=", id)
+    console.log("clickedPics=", this.state.clickedPics)
+
+    let findPic = {}
+    this.state.clickedPics.forEach((pic) => {
+      if (pic.id === id) {
+        findPic = pic
+      }
+    });
+    console.log("findpic", findPic)
+  
+    if(id === findPic) {
+      this.setState({
+        message: "You guessed incorrectly!",
+        highScore: (this.state.score > this.state.highScore) ? this.state.score : this.state.highScore,
+        score: 0,
+        pics: pics,
+        clickedPics: pics
+      });
+    } else {
+      const picClicked = this.state.clickedPics.filter(pic => pic.id !== id);
+      this.setState({
+        message: "You guessed correctly!",
+        score: this.state.score + 1,
+        pics: pics,
+        clickedPics: picClicked
+      });
+    }
+
+    this.shuffle(pics)
+  };
 
   render() {
     return (
@@ -42,7 +64,7 @@ class App extends Component {
             highScore={this.state.highScore}
           />
 
-          <h2>{this.state.message}</h2>
+          <h4>{this.state.message}</h4>
 
           <div className="cont clearfix">
             {this.state.pics.map(pic => (
