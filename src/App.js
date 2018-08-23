@@ -8,30 +8,50 @@ import './App.css';
 class App extends Component {
 
   state = {
-    currentScore: 0,
+    score: 0,
     highScore: 0,
-    pics
+    pics,
+    clickedPics: [],
+    message: ""
   };
 
-  handleClick = () => {
-    console.log("clicked")
-  };
+  handleClick = id => {
+    let {clickedPics, score} = this.state;
+
+    if(clickedPics.includes(id)){
+      this.setState({
+        clickedPics: [],
+        score: 0,
+        message:  "You lost"
+      });
+      return;
+    } else {
+      this.setState({
+        clickedPics: clickedPics.concat(id),
+        score: score + 1
+      })
+      console.log(clickedPics)
+    }
+  }
 
   render() {
     return (
       <Wrapper>
           <Header 
-            currentScore={this.state.currentScore}
+            score={this.state.score}
             highScore={this.state.highScore}
           />
+
+          <h2>{this.state.message}</h2>
 
           <div className="cont clearfix">
             {this.state.pics.map(pic => (
               <Pics 
                 key={pic.id}
+                id={pic.id}
                 name={pic.name} 
                 image={pic.image}
-                func={this.state.handleClick}
+                func={this.handleClick}
               />
             ))}          
           </div>
